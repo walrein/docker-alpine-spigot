@@ -1,17 +1,14 @@
 FROM java:alpine
 MAINTAINER walrein
 
-RUN apk add --update --no-cache git openssl wget
+RUN apk upgrade --update && \
+	apk add --update --no-cache git openssl
 
 
 ENV SPIGOT_HOME /minecraft
 RUN mkdir ${SPIGOT_HOME}
 WORKDIR ${SPIGOT_HOME}
 
-
-RUN wget -O https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-
-RUN java -jar BuildTools.jar --rev latest
-
-RUN mv -f spigot-*.jar spigot.jar
-
+ADD ./spigot_init.sh ${SPIGOT_HOME}/spigot_init.sh
+RUN chmod +x ${SPIGOT_HOME}/spigot_init.sh
+RUN ${SPIGOT_HOME}/spigot_init.sh
