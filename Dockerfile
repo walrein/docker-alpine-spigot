@@ -1,7 +1,7 @@
 FROM java:alpine
 MAINTAINER walrein
 
-RUN apk add --update --no-cache git openssl
+RUN apk add --update --no-cache git openssl wget
 
 
 ENV SPIGOT_HOME /minecraft
